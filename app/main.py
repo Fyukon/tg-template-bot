@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 from aiogram import Bot, Dispatcher
 
-from config import config
+from app.config import config
 from app.routers.start import start_router
 
 
