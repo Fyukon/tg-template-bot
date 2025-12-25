@@ -1,2 +1,2 @@
 from app.config import config
-from app.routers.start import start_router
+from app.routers.start import router
