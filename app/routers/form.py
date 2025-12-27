@@ -48,4 +48,5 @@ async def handle_comment(message: types.Message, state: FSMContext):
     await state.update_data(comment=message.text)
     data = await state.get_data()
     await state.clear()
-    await message.answer(f"Ваша заявка принята! \n {data['name']} ] \n {data['phone_number']} \n {data['comment']}")
+    await message.answer(f"Ваша заявка принята! \n{data['name']} \n{data['phone_number']} \n{data['comment']}")
+

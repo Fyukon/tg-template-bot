@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: tg_bot_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tg_bot_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  bot:
+    build: .
+    container_name: tg_bot_app
+    env_file:
+      - ./app/.env
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  pg_data:
