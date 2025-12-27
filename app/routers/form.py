@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 
 from app.keyboards import back_kb, contact_kb, main_kb
+from app.dao import set_lead
 
 router = Router()
 
@@ -49,4 +50,4 @@ async def handle_comment(message: types.Message, state: FSMContext):
     data = await state.get_data()
     await state.clear()
     await message.answer(f"Ваша заявка принята! \n{data['name']} \n{data['phone_number']} \n{data['comment']}")
-
+    await set_lead(message.from_user.id, data)

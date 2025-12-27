@@ -8,6 +8,7 @@ from sqlalchemy import text
 from app.config import config
 from app.routers.common import router as router_common
 from app.routers.form import router as router_form
+from app.database import async_main
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -28,7 +29,9 @@ async def test_db_connection():
 
 
 async def main():
+    await async_main()
     await test_db_connection()
+
     bot = Bot(token=config.BOT_TOKEN)
     dp = Dispatcher()
     dp.include_router(router_form)

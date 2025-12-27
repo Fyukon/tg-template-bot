@@ -2,12 +2,14 @@ from aiogram import Router, types, F
 from aiogram.filters import Command
 
 from app.keyboards import main_kb, services_kb, back_kb
+from app.dao import set_user
 
 router = Router()
 
 
 @router.message(F.text == "/start")
 async def start_handler(message: types.Message):
+    await set_user(message.from_user.id, message.from_user.username)
     await message.answer(text="Главное меню", reply_markup=main_kb())
 
 
