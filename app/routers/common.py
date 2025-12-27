@@ -39,8 +39,3 @@ async def about_menu(callback: types.CallbackQuery):
 @router.message(Command("help"))
 async def cmd_help(message: types.Message):
     await message.answer("Да! Обращайся, конечно!")
-
-
-@router.message(F.text.lower() == "Как дела?".lower())
-async def cmd_qstn(message: types.Message):
-    await message.answer("Да отлично все, сам как ?")
