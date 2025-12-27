@@ -24,4 +24,6 @@ async def set_lead(tg_id: int, data: dict):
 
             session.add(new_lead)
             await session.commit()
-        logging.info(f"Заявка от {user.id} принята!")
+            logging.info(f"Заявка от {user.id} принята!")
+        else:
+            logging.info(f"Заявка от {username} не прошла. Пользователя не существует!")
