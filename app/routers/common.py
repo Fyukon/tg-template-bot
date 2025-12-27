@@ -23,12 +23,6 @@ async def service_menu(callback: types.CallbackQuery):
     await callback.answer()
 
 
-@router.callback_query(F.data == "request")
-async def request_menu(callback: types.CallbackQuery):
-    await callback.message.edit_text(text="Отправьте свои контакты", reply_markup=services_kb())
-    await callback.answer()
-
-
 @router.callback_query(F.data == "about")
 async def about_menu(callback: types.CallbackQuery):
     await callback.message.edit_text(text="Это просто тренировочный бот, тут может быть много всего, мало смысла",

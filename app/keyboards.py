@@ -1,6 +1,11 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+
+def contact_kb() -> ReplyKeyboardMarkup:
+    button = KeyboardButton(text = "Отправить номер телефона", request_contact=True)
+    keyboard = ReplyKeyboardMarkup(keyboard = [[button]], resize_keyboard=True)
+    return keyboard
 
 def main_kb() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()

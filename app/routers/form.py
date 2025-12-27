@@ -1,7 +1,8 @@
 from aiogram import F, types, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from app.keyboards import back_kb
+
+from app.keyboards import back_kb, contact_kb, main_kb
 
 router = Router()
 
@@ -16,18 +17,35 @@ class Request(StatesGroup):
 async def handle_request(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(Request.name)
     await callback.message.answer("Введите, пожалуйста, свое имя:", reply_markup=back_kb())
+    await callback.message.delete()
     await callback.answer()
+
 
 @router.callback_query(Request(), F.data == "main_menu")
 async def handle_back(callback: types.CallbackQuery, state: FSMContext):
     await state.clear()
-    await callback.message.answer("Вы вновь в главном меню")
+    await callback.message.answer("Вы вновь в главном меню", reply_markup=main_kb())
+    await callback.message.delete()
+    await callback.answer()
 
 
 @router.message(Request.name)
 async def handle_name(message: types.Message, state: FSMContext):
-    await state.update_data(name = message.text)
+    await state.update_data(name=message.text)
     await state.set_state(Request.contact)
-    await message.answer("Отправьте свой контакт", reply_markup=back_kb())
+    await message.answer("Отправьте свой контакт", reply_markup=contact_kb())
 
 
+@router.message(Request.contact, F.contact)
+async def handle_contact(message: types.Message, state: FSMContext):
+    await state.update_data(phone_number=message.contact.phone_number)
+    await state.set_state(Request.comment)
+    await message.answer("Комментарий (если есть)", reply_markup=types.ReplyKeyboardRemove())
+
+
+@router.message(Request.comment)
+async def handle_comment(message: types.Message, state: FSMContext):
+    await state.update_data(comment=message.text)
+    data = await state.get_data()
+    await state.clear()
+    await message.answer(f"Ваша заявка принята! \n {data['name']} ] \n {data['phone_number']} \n {data['comment']}")

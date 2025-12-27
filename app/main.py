@@ -7,13 +7,15 @@ logger = logging.getLogger(__name__)
 from aiogram import Bot, Dispatcher
 
 from app.config import config
-from app.routers.common import router
+from app.routers.common import router as router_common
+from app.routers.form import router as router_form
 
 
 async def main():
     bot = Bot(token=config.BOT_TOKEN)
     dp = Dispatcher()
-    dp.include_router(router)
+    dp.include_router(router_form)
+    dp.include_router(router_common)
     logger.info("Бот запущен!")
     await dp.start_polling(bot)
 
