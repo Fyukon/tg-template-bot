@@ -14,6 +14,10 @@ def main_kb() -> InlineKeyboardMarkup:
     builder.row(InlineKeyboardButton(text="Оставить заявку", callback_data="request"))
     return builder.as_markup()
 
+def no_comment_kb() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(text="Без комментариев", callback_data="no_comment"))
+    return builder.as_markup()
 
 def services_kb() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()

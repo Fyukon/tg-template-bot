@@ -1,9 +1,10 @@
-from sqlalchemy import select
+from sqlalchemy import select, desc
 import logging
 
 from app.database import async_session, User, Lead
 
 
+logger = logging.getLogger(__name__)
 async def set_user(tg_id: int, username: str | None):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.tg_id == tg_id))
@@ -24,6 +25,13 @@ async def set_lead(tg_id: int, data: dict):
 
             session.add(new_lead)
             await session.commit()
-            logging.info(f"Заявка от {user.id} принята!")
+            logger.info(f"Заявка от {user.id} принята!")
         else:
-            logging.info(f"Заявка от {tg_id} не прошла. Пользователя не существует!")
+            logger.info(f"Заявка от {tg_id} не прошла. Пользователя не существует!")
+
+async def get_leads():
+    async with async_session() as session:
+        query = select(Lead)
+
+        result = await session.scalars(query)
+        return result.all()

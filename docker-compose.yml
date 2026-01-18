@@ -17,6 +17,8 @@ services:
       - ./app/.env
     depends_on:
       - db
+    volumes:
+      - .:/app
     restart: always
 
 volumes:

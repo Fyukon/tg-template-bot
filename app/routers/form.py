@@ -1,11 +1,14 @@
+import logging
+
 from aiogram import F, types, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 
-from app.keyboards import back_kb, contact_kb, main_kb
 from app.dao import set_lead
+from app.keyboards import back_kb, contact_kb, main_kb, no_comment_kb
 
 router = Router()
+logger = logging.getLogger(__name__)
 
 
 class Request(StatesGroup):
@@ -46,7 +49,7 @@ async def handle_contact(message: types.Message, state: FSMContext):
 
 @router.message(Request.comment)
 async def handle_comment(message: types.Message, state: FSMContext):
-    await state.update_data(comment=message.text)
+    logger.debug("Зашел в comment")
     data = await state.get_data()
     await state.clear()
     await message.answer(f"Ваша заявка принята! \n{data['name']} \n{data['phone_number']} \n{data['comment']}")
