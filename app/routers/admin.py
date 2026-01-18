@@ -1,7 +1,7 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
 
-from app.dao import get_leads
+from app.dao import get_leads, delete_all_leads
 
 admin_id = 582690569
 
@@ -21,3 +21,10 @@ async def send_leads(message: types.Message):
     for lead in leads:
         response += f" 🆔:{lead.id}\n 👤:{lead.name}\n 📞:{lead.phone}\n 💬:{lead.comment or "без комм."}\n─────────────\n"
     await message.answer(response, parse_mode="Markdown")
+
+@router.message(Command("delete"))
+async def delete_leads(message: types.Message):
+    if message.from_user.id != admin_id:
+        return
+    await delete_all_leads()
+    await message.answer("Все заявки были удалены")

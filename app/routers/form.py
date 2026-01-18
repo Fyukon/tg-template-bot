@@ -50,6 +50,7 @@ async def handle_contact(message: types.Message, state: FSMContext):
 @router.message(Request.comment)
 async def handle_comment(message: types.Message, state: FSMContext):
     logger.debug("Зашел в comment")
+    await state.update_data(comment=message.text)
     data = await state.get_data()
     await state.clear()
     await message.answer(f"Ваша заявка принята! \n{data['name']} \n{data['phone_number']} \n{data['comment']}")
