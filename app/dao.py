@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy import select, desc, delete
+from sqlalchemy import select, desc, delete, update
 
 from app.database import async_session, User, Lead
 
@@ -31,6 +31,9 @@ async def set_lead(tg_id: int, data: dict):
         else:
             logger.info(f"Заявка от {tg_id} не прошла. Пользователя не существует!")
 
+
+async def get_lead():
+    pass
 
 async def get_leads():
     async with async_session() as session:

@@ -34,6 +34,7 @@ class Lead(Base):
     name: Mapped[str] = mapped_column(String(128))
     phone: Mapped[str] = mapped_column(String(24))
     comment: Mapped[str] = mapped_column(String(1024))
+    #status: Mapped[str] = mapped_column(String(32), default = "Новая")
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 

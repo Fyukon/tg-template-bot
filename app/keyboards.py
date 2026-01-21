@@ -32,3 +32,12 @@ def back_kb() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Назад", callback_data="main_menu"))
     return builder.as_markup()
+
+
+def admin_kb() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(text="Проверить все заявки", callback_data="check_leads"))
+    builder.row(InlineKeyboardButton(text="Удалить все заявки", callback_data="delete_leads"))
+    builder.row(InlineKeyboardButton(text="Посмотреть заявку", callback_data="get_lead"))
+    return builder.as_markup()
+
