@@ -1,11 +1,12 @@
 import logging
+from curses.ascii import isdigit
 
 from aiogram import F, types, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 
 from app.dao import set_lead
-from app.keyboards import back_kb, contact_kb, main_kb, no_comment_kb
+from app.keyboards import back_kb, contact_kb, main_kb
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -35,6 +36,9 @@ async def handle_back(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(Request.name)
 async def handle_name(message: types.Message, state: FSMContext):
+    if len(message.text) < 2 or sum(map(isdigit, message.text)):
+        await message.answer("Имя не может быть слишком коротким или содержать цифры")
+        return
     await state.update_data(name=message.text)
     await state.set_state(Request.contact)
     await message.answer("Отправьте свой контакт", reply_markup=contact_kb())
@@ -45,6 +49,11 @@ async def handle_contact(message: types.Message, state: FSMContext):
     await state.update_data(phone_number=message.contact.phone_number)
     await state.set_state(Request.comment)
     await message.answer("Комментарий (если есть)", reply_markup=types.ReplyKeyboardRemove())
+
+
+@router.message(Request.contact, F.text)
+async def handle_contact(message: types.Message, state: FSMContext):
+    await message.answer("Отправьте, пожалуйста, контакт кнопкой внизу")
 
 
 @router.message(Request.comment)
