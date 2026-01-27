@@ -86,7 +86,7 @@ docker logs \-f tg\_bot\_app
 * app/middleware.py: Защита от частого нажатия кнопок.
 
 ## **Демо**
-![user demo](assets/tg-template-bot.gif)
+![user demo](assets/demo2.gif)
 
 ## **👨‍💻 Контакты**
 
